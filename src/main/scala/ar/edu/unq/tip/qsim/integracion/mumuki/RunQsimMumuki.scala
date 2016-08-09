@@ -13,7 +13,7 @@ object runMainMumuki extends App {
   var la = new QsimMainMumuki()
   var sim = Simulador()
   try {
-    la.setPathFile("src/main/resources/" + program)
+    la.setPathFile(program)
     la.selectArqQ(arqQ)
     la.ensamblar()
     sim.inicializarSim()
