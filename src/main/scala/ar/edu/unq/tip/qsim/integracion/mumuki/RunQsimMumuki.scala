@@ -9,11 +9,11 @@ import ar.edu.unq.tpi.qsim.parser.Parser
 object runMainMumuki extends App {
 
   var program = args(0)
-  var arqQ = args(1).toInt
+  var arqQ = args(1).toInt - 1
   var la = new QsimMainMumuki()
   var sim = Simulador()
   try {
-    la.setPathFile("src/main/resources/" + program)
+    la.setPathFile(program)
     la.selectArqQ(arqQ)
     la.ensamblar()
     sim.inicializarSim()
