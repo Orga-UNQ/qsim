@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mumuki/QSim.svg?branch=master)](https://travis-ci.org/mumuki/QSim)
+
 Copyright 2014 Tatiana Molinari.
 Copyright 2014 Susana Rosito
 
