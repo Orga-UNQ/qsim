@@ -1,0 +1,17 @@
+language: scala
+scala:
+- 2.11.2
+cache:
+  directories:
+  - $HOME/.m2
+before_deploy:
+- mvn assembly:assembly -DdescriptorId=jar-with-dependencies  
+deploy:
+  provider: releases
+  api_key:
+    secure: CE9bBP5IENrbEHHOHo7UDy2rVyQMO3fLQH3QUfgfdfH6KF3WI/A3nNNzSIRJxtPLavvh22glFxSxFIJTwMJGuJDxHA5bHT8wq1+GH0HPLpoq7nw8FM5ZfED330mfXMhfksGoBR3mMb+WlbYgtekx8SuK7vM1/MvqO1yjxvPhm0mgX20P4ehL5uU7RpQ914vwMzSQ3mfC7I4j6S9DUHdAVgdBXWndVra96J4fcRaXElTppxt0lcQqjjVTfEpoqfji8XSeHPK39DBqGdSTVpxqJZFgtJPQLdupB4GyyFwjQFPMjke/JxZFGX2Gl6uW/pTt8MQqx4fxfRCyJMr3NktpsbKVeIDMxbnWMd8/GK6yFfp5RgAdpeNm6R5Kis2HeRfKXmtQNK4VSXybqvKTKYhL9h8km3fvocBvfDxW6+/f85EI4RyJvYqUIi048Vjh3RLZAcMwsO1nhRsxfF+AQjk7mBZm8rc5peAhxWgYBfBSSj4zNBZcok1XGuQauptT3IDN4zlYRKhrj3M61JwzuhasSGhdYPGqIPtISS05x5k27nkDJwO6LlJcQ2COqRZDZOg+/7faE2yZjA8+LGINE7sAqR2EXPWCfiNYtBBIw3OpBzbNES0f2m87fHi/xGgvE82MyC4Xta764L16r2kPt4ShgCWiilvO3Kzvtg69YIjLa+k=
+  file: target/QSim.jar
+  skip_cleanup: true
+  on:
+    repo: mumuki/QSim
+    tags: true
