@@ -19,10 +19,8 @@ class QsimMainMumuki {
     if (path != null) {
       var nombre = takeName(path)
       var codigo = readFile(path)
-      println(codigo)
       var archivo = new Archivo(nombre, codigo)
       files = files.+:(archivo)
-      println(files)
     }
   }
 
@@ -35,9 +33,7 @@ class QsimMainMumuki {
 
   def ensamblar() {
     program = null
-    println("QUE ARQUITECTURA USAMOS \n" + arqCurrent)
     program = arqCurrent.parser(files.map(_.codigo).mkString)
-    println("RESULTADO DEL ENSAMBLADO \n" + program)
   }
   
   def selectArqQ(arqQ: Integer) {

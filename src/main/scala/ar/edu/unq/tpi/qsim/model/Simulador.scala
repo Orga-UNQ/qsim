@@ -235,7 +235,6 @@ case class Simulador() {
    *
    */
   def decode() = {
-    Console.println("Se decodifico la instruccion : " + (instruccionActual.toString))
     agregarMensaje("Se decodifico la instruccion : " + (instruccionActual.toString))
     ciclo.pasarAExecute
     (instruccionActual.toString)
