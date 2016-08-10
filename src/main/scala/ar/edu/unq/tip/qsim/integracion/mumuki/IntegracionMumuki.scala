@@ -16,24 +16,12 @@ class JsonResult {
 
   implicit def registroToString(registro: Registro): String = registro.valor.hex
 
-  var gson = new GsonBuilder().setPrettyPrinting().create();
-  var result: Any = _
-
-  def buildJsonOk(cpu: CPU): Any = {
-    result = JsonOk(
+  def buildJsonOk(cpu: CPU) = 
+    JsonOk(
       SpecialRecords(cpu.pc.hex, cpu.sp.hex, cpu.ir),
       Flags(cpu.n, cpu.z, cpu.v, cpu.c),
       Records(cpu.registros(0), cpu.registros(1), cpu.registros(2), cpu.registros(3), cpu.registros(4),
         cpu.registros(5), cpu.registros(6), cpu.registros(7)))
-    printJson()
-  }
 
-  def buildJsonError(msg: String): Any = {
-    result = JsonError(msg)
-    printJson()
-  }
-
-  def printJson() {
-    Console.println(gson.toJson(result))
-  }
+  def buildJsonError(msg: String) = JsonError(msg)
 }

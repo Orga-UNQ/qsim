@@ -47,7 +47,6 @@ object Parser extends Ensamblador {
     case Success(result, _) ⇒ result
     case Failure(msg, i) ⇒ {
       var mensaje = createMessage(i)
-      jsonResult.buildJsonError(mensaje)
       throw new SyntaxErrorException(mensaje)
     }
     case Error(msg, i) ⇒ throw new SyntaxErrorException(msg)
