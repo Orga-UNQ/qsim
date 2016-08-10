@@ -51,6 +51,10 @@ case class SyntaxErrorException(smth:String) extends UserException(smth) {
 
 }
 
+case class RuntimeErrorException(smth:String) extends UserException(smth) {
+
+}
+
 case class StackPointerExeption(smth:String) extends UserException(smth) {
 
 }

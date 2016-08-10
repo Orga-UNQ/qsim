@@ -22,7 +22,7 @@ package ar.edu.unq.tpi.qsim.parser
 
 import ar.edu.unq.tpi.qsim.model.Programa
 import scala.util.parsing.input.CharSequenceReader
-import ar.edu.unq.tpi.qsim.exeptions.SyntaxErrorException
+import ar.edu.unq.tpi.qsim.exeptions.{RuntimeErrorException,SyntaxErrorException}
 import org.uqbar.commons.utils.Observable
 import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonResult
 
@@ -49,7 +49,7 @@ object Parser extends Ensamblador {
       var mensaje = createMessage(i)
       throw new SyntaxErrorException(mensaje)
     }
-    case Error(msg, i) ⇒ throw new SyntaxErrorException(msg)
+    case Error(msg, i) ⇒ throw new RuntimeErrorException(msg)
   }
 
   def createMessage(output: Input): String = {
