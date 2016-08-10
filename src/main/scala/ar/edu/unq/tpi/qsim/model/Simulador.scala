@@ -53,7 +53,6 @@ case class Simulador() {
   var instruccionActual: Instruccion = _
   var celdaInstruccionActual: ArrayBuffer[Celda] = ArrayBuffer[Celda]()
   var programaActual: Programa = _
-  var jsonResult: JsonResult = _
 
   /**
    * Inicializa el sumulador, crea la memoria y el CPU.
@@ -62,7 +61,6 @@ case class Simulador() {
     cpu = CPU()
     busIO = new BusEntradaSalida()
     busIO.initialize()
-    jsonResult = new JsonResult()
     agregarMensaje("******************INFORMACION*******************")
     agregarMensaje("El programa compilado ha sido cargado en la memoria con exito")
   }
@@ -287,12 +285,12 @@ case class Simulador() {
   /**
    * Simula la ejecucion de todas las etapas de ciclo de instruccion a cada una de las instrucciones del programa. Ejecuta todo el programa.
    */
-  def execute_all_program() {
+  def execute_all_program() = {
     while (!programaActual.finalizo()) {
       execute_complete()
       programaActual.actualizarIndice()
     }
-    jsonResult.buildJsonOk(cpu)
+    new JsonResult().buildJsonOk(cpu)
   }
 
   /**
