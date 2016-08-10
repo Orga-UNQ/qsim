@@ -27,6 +27,7 @@ object runMainMumuki extends App {
     } catch {
       case ex: SyntaxErrorException => JsonError(ex.getMessage, "syntax")
       case ex: RuntimeErrorException => JsonError(ex.getMessage, "runtime")
+      case ex: UserException => JsonError(ex.getMessage, "runtime")
       case ex: Throwable => JsonError(ex.getMessage, "unknown")
     }
 
