@@ -1,17 +1,16 @@
-[![Build Status](https://travis-ci.org/mumuki/QSim.svg?branch=master)](https://travis-ci.org/mumuki/QSim)
+[![Build Status](https://travis-ci.org/Orga-UNQ/qsim.svg?branch=master)](https://travis-ci.org/Orga-UNQ/qsim)
 
-Copyright 2014 Tatiana Molinari.
-Copyright 2014 Susana Rosito
+# QSim
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+QSim es un simulador gráfico de la ejecución de programas en las distintas versiones de la Arquitectura Q.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+## Cómo publicar una nueva versión
 
-You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
+Está automatizado mediante Travis CI, utilizando el plugin Maven Release. Básicamente lo que hay que hacer es crear un tag y pushearlo a este repositorio, aunque esto está resuelto por el plugin:
+
+```bash
+mvn release:clean release:prepare
+git push --follow-tags
+```
+
+El esquema de versiones sigue la especificación Semantic Versioning 2.0.0, la cual puede conocerse en http://semver.org/.
