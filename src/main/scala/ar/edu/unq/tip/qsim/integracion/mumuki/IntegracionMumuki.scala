@@ -5,12 +5,14 @@ import com.google.gson.GsonBuilder
 import ar.edu.unq.tpi.qsim.model.CPU
 import ar.edu.unq.tpi.qsim.model.Registro
 
-case class JsonOk(var special_records: SpecialRecords, var flags: Flags, var records: Records)
-case class SpecialRecords(val PC: String, val SP: String, val IR: String)
-case class Flags(val N: Int, val Z: Int, val V: Int, val C: Int)
+abstract class JsonOutPut
+
+case class JsonOk(var special_records: SpecialRecords, var flags: Flags, var records: Records) extends JsonOutPut
+case class SpecialRecords(val PC: String, val SP: String, val IR: String) extends JsonOutPut
+case class Flags(val N: Int, val Z: Int, val V: Int, val C: Int) extends JsonOutPut
 case class Records(val R0: String, val R1: String, val R2: String, val R3: String, val R4: String,
-                   val R5: String, val R6: String, val R7: String)
-case class JsonError(val error: String, val kind: String)
+                   val R5: String, val R6: String, val R7: String) extends JsonOutPut
+case class JsonError(val error: String, val kind: String) extends JsonOutPut
 
 class JsonResult {
 

@@ -5,9 +5,8 @@ import ar.edu.unq.tpi.qsim.model.W16
 import scala.collection.mutable.Map
 import ar.edu.unq.tpi.qsim.exeptions.{RuntimeErrorException,SyntaxErrorException}
 import org.uqbar.commons.model.UserException
-import ar.edu.unq.tpi.qsim.parser.Parser
 import com.google.gson.GsonBuilder
-import ar.edu.unq.tpi.qsim.integracion.mumuki.{JsonResult,JsonError,JsonOk}
+import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonError
 
 object runMainMumuki extends App {
 
@@ -15,7 +14,8 @@ object runMainMumuki extends App {
   var arqQ = args(1).toInt - 1
   var la = new QsimMainMumuki()
   var sim = Simulador()
-  
+  var refereeQsim = new RefereeQsimMumuki()
+
   val result = 
     try {
       la.setPathFile(program)
@@ -31,13 +31,11 @@ object runMainMumuki extends App {
       case ex: Throwable => JsonError(ex.getMessage, "unknown")
     }
 
-  var gson = new GsonBuilder().setPrettyPrinting().create()
-  
-  Console.println(gson.toJson(result))
+  val (code, output) = refereeQsim.evalResult(result)
 
-  val exitCode = result match {
-    case _:JsonOk    =>  0
-    case _:JsonError => -1
-  }
-  System.exit(exitCode)
+  var gson = new GsonBuilder().setPrettyPrinting().create()
+
+  Console.println(gson.toJson(output))
+
+  System.exit(code)
 } 
