@@ -39,7 +39,8 @@ class EjecucionInstruccionesLlamadaASubRutinaYSaltos extends FlatSpec with Match
   def simuladores = new {
     var set_contexto_programas = contexto_programas
     var simulador = Simulador()
-    simulador.inicializarSim(_)
+    var mapFlags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
+    simulador.inicializarSim(mapFlags)
     simulador.cargarProgramaYRegistros(set_contexto_programas.programa, "0000", Map[String, W16]())
 
     // Ejecuto la primera instruccion para que quede Call para ejecutar
@@ -48,7 +49,7 @@ class EjecucionInstruccionesLlamadaASubRutinaYSaltos extends FlatSpec with Match
     simulador.execute()
 
     var simuladorRET = Simulador()
-    simuladorRET.inicializarSim(_)
+    simuladorRET.inicializarSim(mapFlags)
     simuladorRET.cargarProgramaYRegistros(set_contexto_programas.programa, "0000", Map[String, W16]())
 
     // Ejecuto la primera instruccion para que quede RET para ejecutar
@@ -58,7 +59,7 @@ class EjecucionInstruccionesLlamadaASubRutinaYSaltos extends FlatSpec with Match
       simuladorRET.execute()
     }
     var simuladorSaltos = Simulador()
-    simuladorSaltos.inicializarSim(_)
+    simuladorSaltos.inicializarSim(mapFlags)
     simuladorSaltos.cargarProgramaYRegistros(set_contexto_programas.programa_saltos, "0000", Map[String, W16]())
      // Ejecuto la primera instruccion para que quede JMP para ejecutar
     simuladorSaltos.fetch()
