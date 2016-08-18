@@ -6,6 +6,10 @@ import org.uqbar.commons.utils.Observable
 import ar.edu.unq.tpi.qsim.model.Programa
 import ar.edu.unq.tpi.qsim.parser.ArquitecturaQ
 import ar.edu.unq.tpi.qsim.parser.Parser
+import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonResult
+import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonOk
+import ar.edu.unq.tpi.qsim.model.W16
+import scala.collection.mutable.Map
 
 class QsimMainMumuki {
   
@@ -14,7 +18,10 @@ class QsimMainMumuki {
   var arqCurrent: ArquitecturaQ = _
   var program: Programa = _
   var programCounter = "0000"
-
+  var input: JsonOk = _
+  var registerInput : Map[String, W16] = _ 
+  var flags : Map[String, Any] = _
+  
   def setPathFile(path: String) {
     if (path != null) {
       var nombre = takeName(path)
@@ -45,4 +52,11 @@ class QsimMainMumuki {
     part_path(part_path.length - 1)
   }
   
+  def agregarInput(path: String) {
+    var inFile = readFile(path)
+    input = new JsonResult().parserJson(inFile)
+    registerInput = Map[String, W16]("R0" -> new W16(input.records.R0), "R1" -> new W16(input.records.R1), "R2" -> new W16(input.records.R2) ,"R3" -> new W16(input.records.R3)
+    , "R4" -> new W16(input.records.R4), "R5" -> new W16(input.records.R5), "R6" -> new W16(input.records.R6), "R7" -> new W16(input.records.R7))
+    flags = Map[String, Any]("v" -> input.flags.V, "c" -> input.flags.C , "z" -> input.flags.Z , "n" -> input.flags.N)
+  }    
 }

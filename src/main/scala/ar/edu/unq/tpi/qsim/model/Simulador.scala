@@ -57,8 +57,9 @@ case class Simulador() {
   /**
    * Inicializa el sumulador, crea la memoria y el CPU.
    */
-  def inicializarSim() {
+  def inicializarSim(flags: Map[String, Any]) {
     cpu = CPU()
+    cpu.actualizarFlags(flags)
     busIO = new BusEntradaSalida()
     busIO.initialize()
     agregarMensaje("******************INFORMACION*******************")

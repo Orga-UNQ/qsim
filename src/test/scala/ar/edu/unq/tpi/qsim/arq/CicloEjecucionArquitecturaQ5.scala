@@ -70,10 +70,10 @@ class CicloEjecucionArquitecturaQ5 extends FlatSpec with Matchers {
       var registros_actualizar = registros_a_actualizar
   
       var simulador = new Simulador()
-      simulador.inicializarSim()
+      simulador.inicializarSim(_)
   
       var simulador_con_programa = new Simulador()
-      simulador_con_programa.inicializarSim()
+      simulador_con_programa.inicializarSim(_)
       simulador_con_programa.cargarProgramaYRegistros(programa, "0000", registros_actualizar.registros)
     }
 

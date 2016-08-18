@@ -69,7 +69,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
       try {
         la.selectArqQ(arqQ)
         la.ensamblar()
-        sim.inicializarSim()
+        sim.inicializarSim(_)
         sim.cargarProgramaYRegistros(programa, "0000", Map[String, W16]())
         sim.execute_all_program()
       } catch {
@@ -92,7 +92,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
       try {
         la.selectArqQ(arqQ)
         la.ensamblar()
-        sim.inicializarSim()
+        sim.inicializarSim(_)
         sim.cargarProgramaYRegistros(programa, "0000", Map[String, W16]())
         sim.execute_all_program()
       } catch {
@@ -115,7 +115,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
       try {
         la.selectArqQ(arqQ)
         la.ensamblar()
-        sim.inicializarSim()
+        sim.inicializarSim(_)
         sim.cargarProgramaYRegistros(programa, "0000", Map[String, W16]())
         sim.execute_all_program()
       } catch {
