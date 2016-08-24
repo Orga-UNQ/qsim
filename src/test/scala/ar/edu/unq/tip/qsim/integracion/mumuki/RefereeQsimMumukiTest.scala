@@ -65,12 +65,13 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
     var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-
+    var posMemory = Map[String, Map[String, String]]()
+    
     val result =
       try {
         la.selectArqQ(arqQ)
         la.ensamblar()
-        sim.inicializarSim(flags)
+        sim.inicializarSim(flags, posMemory)
         sim.cargarProgramaYRegistros(programa, "0000", Map[String, W16]())
         sim.execute_all_program()
       } catch {
@@ -89,13 +90,14 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
     var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
+    var posMemory = Map[String, Map[String, String]]()
 
 
     val result =
       try {
         la.selectArqQ(arqQ)
         la.ensamblar()
-        sim.inicializarSim(flags)
+        sim.inicializarSim(flags, posMemory)
         sim.cargarProgramaYRegistros(programa, "0000", Map[String, W16]())
         sim.execute_all_program()
       } catch {
@@ -114,12 +116,13 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
     var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
+    var posMemory = Map[String, Map[String, String]]()
 
     val result =
       try {
         la.selectArqQ(arqQ)
         la.ensamblar()
-        sim.inicializarSim(flags)
+        sim.inicializarSim(flags, posMemory)
         sim.cargarProgramaYRegistros(programa, "0000", Map[String, W16]())
         sim.execute_all_program()
       } catch {

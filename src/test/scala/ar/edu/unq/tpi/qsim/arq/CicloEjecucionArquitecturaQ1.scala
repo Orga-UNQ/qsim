@@ -71,13 +71,15 @@ class CicloDeEjecucionArquitecturaQ1 extends FlatSpec with Matchers {
     var parser = parsers_resultados
     var programa = parser.resultadoQ1
     var registros_actualizar = registros_a_actualizar
-
+    
     var simulador = new Simulador()
     var mapFlags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    simulador.inicializarSim(mapFlags)
+    var posMemory = Map[String, Map[String, String]]()
+
+    simulador.inicializarSim(mapFlags, posMemory)
 
     var simulador_con_programa = new Simulador()
-    simulador_con_programa.inicializarSim(mapFlags)
+    simulador_con_programa.inicializarSim(mapFlags, posMemory)
     simulador_con_programa.cargarProgramaYRegistros(programa, "0000", registros_actualizar.registros)
   }
 

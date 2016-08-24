@@ -1,10 +1,11 @@
 package ar.edu.unq.tip.qsim.integracion.mumuki
 
 import ar.edu.unq.tpi.qsim.model.Simulador
-import ar.edu.unq.tpi.qsim.exeptions.{RuntimeErrorException,SyntaxErrorException}
+import ar.edu.unq.tpi.qsim.exeptions.{ RuntimeErrorException, SyntaxErrorException }
 import org.uqbar.commons.model.UserException
 import com.google.gson.GsonBuilder
 import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonError
+import scala.collection.mutable.Map
 
 object runMainMumuki extends App {
 
@@ -14,21 +15,21 @@ object runMainMumuki extends App {
   var qsiMain = new QsimMainMumuki()
   var sim = Simulador()
   var refereeQsim = new RefereeQsimMumuki()
-
-  val result = 
+  var position = Map[String, Map[String, String]]() 
+  val result =
     try {
       qsiMain.setPathFile(program)
       qsiMain.selectArqQ(arqQ)
       qsiMain.agregarInput(input)
       qsiMain.ensamblar()
-      sim.inicializarSim(qsiMain.flags)
+      sim.inicializarSim(qsiMain.flags, position)
       sim.cargarProgramaYRegistros(qsiMain.program, qsiMain.input.special_records.PC, qsiMain.registerInput)
       sim.execute_all_program()
     } catch {
-      case ex: SyntaxErrorException => JsonError(ex.getMessage, "syntax")
+      case ex: SyntaxErrorException  => JsonError(ex.getMessage, "syntax")
       case ex: RuntimeErrorException => JsonError(ex.getMessage, "runtime")
-      case ex: UserException => JsonError(ex.getMessage, "runtime")
-      case ex: Throwable => JsonError(ex.getMessage, "unknown")
+      case ex: UserException         => JsonError(ex.getMessage, "runtime")
+      case ex: Throwable             => JsonError(ex.getMessage, "unknown")
     }
 
   val (code, output) = refereeQsim.evalResult(result)
