@@ -68,7 +68,7 @@ case class Memoria(var tamanio: Int) {
   }
 
   /**
-   * Recibe un entero y devuelve el valor de la celda en memoria en esa posicion.
+   * Recibe una direccion de memoria y la cantidad de celdas que ocupa una instruccion y devuelve los valores de esas celdas en memoria desde esa direccion.
    * @param Int
    * @return W16
    */
@@ -81,7 +81,7 @@ case class Memoria(var tamanio: Int) {
   }
 
   /**
-   *
+   * Recibe una direccion y te devuelte esa Celda. Si no existe tira une error.
    */
   def getCelda(pc: Int): Celda = {
     if (pc < Memoria.this.tamanioMemoria()) {
