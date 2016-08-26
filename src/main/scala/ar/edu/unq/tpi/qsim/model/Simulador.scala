@@ -57,10 +57,12 @@ case class Simulador() {
   /**
    * Inicializa el sumulador, crea la memoria y el CPU.
    */
-  def inicializarSim() {
+  def inicializarSim(flags: Map[String, Any], stateMemory: Map[String, Map[String,String]]) {
     cpu = CPU()
+    cpu.actualizarFlags(flags)
     busIO = new BusEntradaSalida()
     busIO.initialize()
+    busIO.setStateToMemory(stateMemory)
     agregarMensaje("******************INFORMACION*******************")
     agregarMensaje("El programa compilado ha sido cargado en la memoria con exito")
   }
@@ -290,7 +292,9 @@ case class Simulador() {
       execute_complete()
       programaActual.actualizarIndice()
     }
-    new JsonResult().buildJsonOk(cpu)
+    var stMemory = busIO.getStateOfMemory()
+    busIO.stateMemory = stMemory
+    new JsonResult().buildJsonOk(this)
   }
 
   /**

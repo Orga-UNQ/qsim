@@ -64,12 +64,14 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var la = new QsimMainMumuki()
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
-
+    var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
+    var posMemory = Map[String, Map[String, String]]()
+    
     val result =
       try {
         la.selectArqQ(arqQ)
         la.ensamblar()
-        sim.inicializarSim()
+        sim.inicializarSim(flags, posMemory)
         sim.cargarProgramaYRegistros(programa, "0000", Map[String, W16]())
         sim.execute_all_program()
       } catch {
@@ -87,12 +89,15 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var la = new QsimMainMumuki()
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
+    var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
+    var posMemory = Map[String, Map[String, String]]()
+
 
     val result =
       try {
         la.selectArqQ(arqQ)
         la.ensamblar()
-        sim.inicializarSim()
+        sim.inicializarSim(flags, posMemory)
         sim.cargarProgramaYRegistros(programa, "0000", Map[String, W16]())
         sim.execute_all_program()
       } catch {
@@ -110,12 +115,14 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var la = new QsimMainMumuki()
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
+    var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
+    var posMemory = Map[String, Map[String, String]]()
 
     val result =
       try {
         la.selectArqQ(arqQ)
         la.ensamblar()
-        sim.inicializarSim()
+        sim.inicializarSim(flags, posMemory)
         sim.cargarProgramaYRegistros(programa, "0000", Map[String, W16]())
         sim.execute_all_program()
       } catch {
@@ -158,7 +165,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     val (code, output) = ctx.refereeQsim.evalResult(ctx.result)
 
     assert(code.equals(-1))
-
+    
     assert(output.asInstanceOf[JsonError].error.equals("Un Inmediato no puede ser un operando destino."))
     }
 

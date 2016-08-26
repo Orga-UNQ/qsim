@@ -1,23 +1,23 @@
 package ar.edu.unq.tpi.qsim.arq
 
 /**
-* Copyright 2014 Tatiana Molinari.
-* Copyright 2014 Susana Rosito
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * Copyright 2014 Tatiana Molinari.
+ * Copyright 2014 Susana Rosito
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -73,10 +73,13 @@ class CicloEjecucionArquitecturaQ2 extends FlatSpec with Matchers {
     var registros_actualizar = registros_a_actualizar
 
     var simulador = new Simulador()
-    simulador.inicializarSim()
+    var mapFlags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
+    var posMemory = Map[String, Map[String, String]]()
+
+    simulador.inicializarSim(mapFlags, posMemory)
 
     var simulador_con_programa = new Simulador()
-    simulador_con_programa.inicializarSim()
+    simulador_con_programa.inicializarSim(mapFlags, posMemory)
     simulador_con_programa.cargarProgramaYRegistros(programa, "0000", registros_actualizar.registros)
   }
 

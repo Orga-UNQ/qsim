@@ -20,6 +20,9 @@ package ar.edu.unq.tpi.qsim.utils
  */
 
 import java.lang.Byte
+import ar.edu.unq.tpi.qsim.model.W16
+import ar.edu.unq.tpi.qsim.model.Celda
+import scala.collection.mutable._
 
 object Util {
 
@@ -241,7 +244,6 @@ object Util {
   def rep[A](n: Int)(f: ⇒ A) { if (n > 0) { f; rep(n - 1)(f) } }
 
   def IntSumToHex(number: Int): String = toHex(number)
-
 }
 
 object Testha extends App {

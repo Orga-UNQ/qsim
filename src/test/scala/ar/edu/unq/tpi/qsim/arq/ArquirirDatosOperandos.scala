@@ -46,7 +46,10 @@ class ArquirirDatosOperandos extends FlatSpec with Matchers {
     var contexto = contexto_operandos
     var programa1 = new Programa(List(contexto.inst1))
     var simulador1 = Simulador()
-    simulador1.inicializarSim
+    var mapFlags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
+        var posMemory = Map[String, Map[String, String]]()
+
+    simulador1.inicializarSim(mapFlags, posMemory)
     var registro3 = simulador1.cpu.registros(3)
     registro3.valor = new W16("0034")
     var registro2 = simulador1.cpu.registros(2)
@@ -55,37 +58,37 @@ class ArquirirDatosOperandos extends FlatSpec with Matchers {
 
     var programa2 = new Programa(List(contexto.inst2))
     var simulador2 = Simulador()
-    simulador2.inicializarSim
+    simulador2.inicializarSim(mapFlags, posMemory)
     simulador2.cargarProgramaYRegistros(programa2, "0010", Map[String, W16]())
 
     var programa3 = new Programa(List(contexto.inst3))
     var simulador3 = Simulador()
-    simulador3.inicializarSim
+    simulador3.inicializarSim(mapFlags, posMemory)
     simulador3.busIO.setValor("0002", new W16("0009"))
     simulador3.cargarProgramaYRegistros(programa3, "0010", Map[String, W16]())
 
     var programa4 = new Programa(List(contexto.inst4))
     var simulador4 = Simulador()
-    simulador4.inicializarSim
+    simulador4.inicializarSim(mapFlags, posMemory)
     simulador4.busIO.setValor("0006", new W16("0001"))
     simulador4.cargarProgramaYRegistros(programa4, "0010", Map[String, W16]())
 
     var programa5 = new Programa(List(contexto.inst5))
     var simulador5 = Simulador()
-    simulador5.inicializarSim
+    simulador5.inicializarSim(mapFlags, posMemory)
     simulador5.busIO.setValor("000B", new W16("0007"))
     simulador5.cargarProgramaYRegistros(programa5, "0010", Map[String, W16]())
 
     var programa6 = new Programa(List(contexto.inst6))
     var simulador6 = Simulador()
-    simulador6.inicializarSim
+    simulador6.inicializarSim(mapFlags, posMemory)
     simulador6.busIO.setValor("0008", new W16("0005"))
     simulador6.busIO.setValor("000A", new W16("0004"))
     simulador6.cargarProgramaYRegistros(programa6, "0010", Map[String, W16]())
 
     var programa7 = new Programa(List(contexto.inst7))
     var simulador7 = Simulador()
-    simulador7.inicializarSim
+    simulador7.inicializarSim(mapFlags, posMemory)
     simulador7.cpu.registros(4).valor = new W16("0004")
     simulador7.busIO.setValor("0004", new W16("000E"))
     simulador7.busIO.setValor("000E", new W16("0100"))
@@ -94,7 +97,7 @@ class ArquirirDatosOperandos extends FlatSpec with Matchers {
 
     var programa8 = new Programa(List(contexto.inst8))
     var simulador8 = Simulador()
-    simulador8.inicializarSim
+    simulador8.inicializarSim(mapFlags, posMemory)
     simulador8.cpu.registros(0).valor = new W16("0004")
     simulador8.busIO.setValor("0004", new W16("0004"))
     simulador8.busIO.setValor("000A", new W16("0005"))
