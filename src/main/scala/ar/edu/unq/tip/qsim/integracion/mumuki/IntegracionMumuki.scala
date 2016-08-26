@@ -31,7 +31,7 @@ class JsonResult {
       SpecialRecords(sim.cpu.pc.hex, sim.cpu.sp.hex, sim.cpu.ir),
       Flags(sim.cpu.n, sim.cpu.z, sim.cpu.v, sim.cpu.c),
       Records(sim.cpu.registros(0), sim.cpu.registros(1), sim.cpu.registros(2), sim.cpu.registros(3), sim.cpu.registros(4),
-        sim.cpu.registros(5), sim.cpu.registros(6), sim.cpu.registros(7)))
+          sim.cpu.registros(5), sim.cpu.registros(6), sim.cpu.registros(7)))
 
   def parserJson(json: String) = {
     var jsonObj = (new JsonParser()).parse(json).getAsJsonObject()

@@ -15,7 +15,8 @@ object runMainMumuki extends App {
   var qsiMain = new QsimMainMumuki()
   var sim = Simulador()
   var refereeQsim = new RefereeQsimMumuki()
-  var position = Map[String, Map[String, String]]() 
+  var position = Map[String, Map[String, String]]()
+
   val result =
     try {
       qsiMain.setPathFile(program)
