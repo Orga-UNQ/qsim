@@ -47,7 +47,7 @@ class ArquirirDatosOperandos extends FlatSpec with Matchers {
     var programa1 = new Programa(List(contexto.inst1))
     var simulador1 = Simulador()
     var mapFlags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-        var posMemory = Map[String, Map[String, String]]()
+        var posMemory = Map[String, java.util.Map[String, String]]()
 
     simulador1.inicializarSim(mapFlags, posMemory)
     var registro3 = simulador1.cpu.registros(3)

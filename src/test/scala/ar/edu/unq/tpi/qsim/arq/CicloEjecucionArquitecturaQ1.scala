@@ -74,7 +74,7 @@ class CicloDeEjecucionArquitecturaQ1 extends FlatSpec with Matchers {
     
     var simulador = new Simulador()
     var mapFlags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, Map[String, String]]()
+    var posMemory = Map[String, java.util.Map[String, String]]()
 
     simulador.inicializarSim(mapFlags, posMemory)
 

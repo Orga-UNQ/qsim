@@ -15,7 +15,6 @@ object runMainMumuki extends App {
   var qsiMain = new QsimMainMumuki()
   var sim = Simulador()
   var refereeQsim = new RefereeQsimMumuki()
-  var position = Map[String, Map[String, String]]()
 
   val result =
     try {
@@ -23,7 +22,7 @@ object runMainMumuki extends App {
       qsiMain.selectArqQ(arqQ)
       qsiMain.agregarInput(input)
       qsiMain.ensamblar()
-      sim.inicializarSim(qsiMain.flags, position)
+      sim.inicializarSim(qsiMain.flags, qsiMain.positionMemoryInput )
       sim.cargarProgramaYRegistros(qsiMain.program, qsiMain.input.special_records.PC, qsiMain.registerInput)
       sim.execute_all_program()
     } catch {
@@ -36,7 +35,7 @@ object runMainMumuki extends App {
   val (code, output) = refereeQsim.evalResult(result)
 
   var gson = new GsonBuilder().setPrettyPrinting().create()
-
+  
   Console.println(gson.toJson(output))
 
   System.exit(code)

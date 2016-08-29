@@ -24,7 +24,7 @@ class QsimMainMumuki {
   var input: JsonOk = _
   var registerInput: Map[String, W16] = _
   var flags: Map[String, Any] = _
-  var positionMemoryInput: Map[String, Map[String, String]] = _
+  var positionMemoryInput: Map[String, java.util.Map[String, String]] = _
 
   def setPathFile(path: String) {
     if (path != null) {
@@ -61,6 +61,6 @@ class QsimMainMumuki {
     input = new JsonResult().parserJson(inFile)
     registerInput = Map[String, W16]("R0" -> new W16(input.records.R0), "R1" -> new W16(input.records.R1), "R2" -> new W16(input.records.R2), "R3" -> new W16(input.records.R3), "R4" -> new W16(input.records.R4), "R5" -> new W16(input.records.R5), "R6" -> new W16(input.records.R6), "R7" -> new W16(input.records.R7))
     flags = Map[String, Any]("v" -> input.flags.V, "c" -> input.flags.C, "z" -> input.flags.Z, "n" -> input.flags.N)
-    //positionMemoryInput = JacksMapper.readValue[Map[String, Map[String, String]]](input.memory.CELL)
+    positionMemoryInput = input.memory
   }
 }

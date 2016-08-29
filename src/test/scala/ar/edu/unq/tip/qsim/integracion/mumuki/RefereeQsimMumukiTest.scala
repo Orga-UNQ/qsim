@@ -65,7 +65,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
     var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, Map[String, String]]()
+    var posMemory = Map[String, java.util.Map[String, String]]()
     
     val result =
       try {
@@ -90,7 +90,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
     var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, Map[String, String]]()
+    var posMemory = Map[String, java.util.Map[String, String]]()
 
 
     val result =
@@ -116,7 +116,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
     var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, Map[String, String]]()
+    var posMemory = Map[String, java.util.Map[String, String]]()
 
     val result =
       try {
