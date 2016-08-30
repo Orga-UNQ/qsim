@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ar.edu.unq.tpi</groupId>
 	<artifactId>QSim</artifactId>
-	<version>0.4.0</version>
+	<version>0.4.1-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.uqbar-project</groupId>
@@ -130,8 +130,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-  <scm>
-    <tag>v0.4.0</tag>
-  </scm>
 </project>
