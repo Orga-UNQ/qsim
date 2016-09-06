@@ -57,7 +57,7 @@ case class Simulador() {
   /**
    * Inicializa el sumulador, crea la memoria y el CPU.
    */
-  def inicializarSim(flags: Map[String, Any], stateMemory: Map[String, java.util.Map[String,String]]) {
+  def inicializarSim(flags: Map[String, Any], stateMemory: java.util.Map[String,String]) {
     cpu = CPU()
     cpu.actualizarFlags(flags)
     busIO = new BusEntradaSalida()

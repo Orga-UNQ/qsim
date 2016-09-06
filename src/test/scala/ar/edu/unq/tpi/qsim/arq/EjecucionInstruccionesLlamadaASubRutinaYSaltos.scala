@@ -24,6 +24,8 @@ import org.scalatest.Matchers
 import ar.edu.unq.tpi.qsim.model._
 import scala.collection.mutable._
 import ar.edu.unq.tpi.qsim.parser.Parser
+import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 class EjecucionInstruccionesLlamadaASubRutinaYSaltos extends FlatSpec with Matchers {
 
@@ -40,7 +42,7 @@ class EjecucionInstruccionesLlamadaASubRutinaYSaltos extends FlatSpec with Match
     var set_contexto_programas = contexto_programas
     var simulador = Simulador()
     var mapFlags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, java.util.Map[String, String]]()
+    var posMemory : java.util.Map[String, String] = Map[String, String]()
 
     simulador.inicializarSim(mapFlags, posMemory)
     simulador.cargarProgramaYRegistros(set_contexto_programas.programa, "0000", Map[String, W16]())

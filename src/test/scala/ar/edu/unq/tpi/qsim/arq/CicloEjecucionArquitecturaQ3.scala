@@ -22,6 +22,8 @@ package ar.edu.unq.tpi.qsim.arq
 import scala.collection.mutable.Map
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
+import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import org.uqbar.commons.utils.Observable
 import ar.edu.unq.tpi.qsim.model.ADD
 import ar.edu.unq.tpi.qsim.model.CALL
@@ -94,7 +96,7 @@ class CicloEjecucionArquitecturaQ3 extends FlatSpec with Matchers {
 
     var simulador = new Simulador()
     var mapFlags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, java.util.Map[String, String]]()
+    var posMemory : java.util.Map[String, String] = Map[String, String]()
 
     simulador.inicializarSim(mapFlags, posMemory)
 

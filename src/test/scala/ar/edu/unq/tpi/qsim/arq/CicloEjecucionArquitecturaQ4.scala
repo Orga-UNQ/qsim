@@ -26,6 +26,8 @@ import ar.edu.unq.tpi.qsim.model._
 import ar.edu.unq.tpi.qsim.utils._
 import ar.edu.unq.tpi.qsim.exeptions.SyntaxErrorException
 import scala.collection.mutable.Map
+import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 class CiclodeEjecucionArquitecturaQ4 extends FlatSpec with Matchers {
   def parsers_resultados = new {
@@ -72,7 +74,7 @@ class CiclodeEjecucionArquitecturaQ4 extends FlatSpec with Matchers {
 
     var simulador = new Simulador()
     var mapFlags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, java.util.Map[String, String]]()
+    var posMemory : java.util.Map[String, String] = Map[String, String]()
 
     simulador.inicializarSim(mapFlags, posMemory)
 

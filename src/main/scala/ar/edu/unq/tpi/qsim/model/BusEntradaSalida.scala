@@ -28,13 +28,14 @@ class BusEntradaSalida {
 
   var memoria: Memoria = _
   var puertos: CeldasPuertos = _
-  var stateMemory = Map[String, java.util.Map[String, String]]()
+  var stateMemory: java.util.Map[String, java.util.List[String]] = Map[String, java.util.List[String]]()
+  
   def initialize() {
     memoria = Memoria(65536)
     //memoria = Memoria(736)
     memoria.initialize
     puertos = new CeldasPuertos()
-    puertos.initialize
+    puertos.initialize()
   }
 
   /**
@@ -92,13 +93,12 @@ class BusEntradaSalida {
     } else { this.memoria.setStateCelda(num_celda, state) }
   }
 
-  def setStateToMemory(stateMem: Map[String, java.util.Map[String, String]]) {
-    for (key <- stateMem.keys) {
-      var fila16 = stateMem.get(key).get
-      for (fkey <- fila16.keys) {
-        var value = fila16.get(fkey)
-        memoria.setValor(fkey, new W16(value))
-      }
+  def setStateToMemory(stateMem: java.util.Map[String, String]) {
+    for (celda <- stateMem.keys) {
+      var dir = new W16(celda)
+      var value = stateMem.get(celda)
+      memoria.setValor(dir.hex, new W16(value))
+      dir.++
     }
   }
 
@@ -111,22 +111,20 @@ class BusEntradaSalida {
     var celdaInit = new W16("0000")
     var celdaContador = new W16("0000")
     var sizeMemory = memoria.tamanioMemoria()
-    var fila16celdas = Map[String, String]()
-
+    var fila16celdas : java.util.List[String] = scala.collection.mutable.ArrayBuffer[String]()
+    
     do {
-      if (contador <= filaActual) {
-        fila16celdas = fila16celdas + (celdaContador.toString() -> memoria.getValor(celdaContador).toString())
-      } else {
-        stateMemory = stateMemory + (celdaInit.hex -> fila16celdas)
-        fila16celdas = Map[String, String]()
+      if (contador <= filaActual){
+        stateMemory(celdaInit.toString()) = fila16celdas.+=(memoria.getValor(celdaContador).toString())
+      }else{
+        fila16celdas = scala.collection.mutable.ArrayBuffer[String]()
         celdaInit.++(16)
         filaActual = filaActual + 16
-        fila16celdas = fila16celdas + (celdaContador.toString() -> memoria.getValor(celdaContador).toString())
+        stateMemory(celdaInit.toString()) = fila16celdas.+=(memoria.getValor(celdaContador).toString())
       }
       celdaContador.++
       contador = contador + 1
-    } while (contador < sizeMemory)
-    stateMemory = stateMemory + (celdaInit.hex -> fila16celdas)
-    stateMemory
-  }
+      } while (contador < sizeMemory)
+      stateMemory
+   }
 }

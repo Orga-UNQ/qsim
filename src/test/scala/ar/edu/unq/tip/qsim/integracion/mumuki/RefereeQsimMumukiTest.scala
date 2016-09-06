@@ -20,13 +20,15 @@ package ar.edu.unq.tip.qsim.integracion.mumuki
   */
 
 import ar.edu.unq.tpi.qsim.exeptions.{RuntimeErrorException, SyntaxErrorException}
-import ar.edu.unq.tpi.qsim.integracion.mumuki.{JsonOk, JsonError}
+import ar.edu.unq.tpi.qsim.integracion.mumuki.{JsonOutOk, JsonError}
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import ar.edu.unq.tpi.qsim.model._
 import org.uqbar.commons.model.UserException
 import scala.collection.mutable._
 import ar.edu.unq.tpi.qsim.utils._
+import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 class RefereeQsimMumukiTest extends FlatSpec with Matchers {
 
@@ -65,7 +67,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
     var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, java.util.Map[String, String]]()
+    var posMemory : java.util.Map[String, String] = Map[String, String]()
     
     val result =
       try {
@@ -90,7 +92,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
     var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, java.util.Map[String, String]]()
+    var posMemory : java.util.Map[String, String] = Map[String, String]()
 
 
     val result =
@@ -116,7 +118,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     var sim = Simulador()
     var refereeQsim = new RefereeQsimMumuki()
     var flags = Map[String, Any]("v" -> 0, "c" -> 0, "z" -> 0, "n" -> 0)
-    var posMemory = Map[String, java.util.Map[String, String]]()
+    var posMemory : java.util.Map[String, String] = Map[String, String]()
 
     val result =
       try {
@@ -140,23 +142,23 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     val (code, output) = ctx.refereeQsim.evalResult(ctx.result)
 
     assert(code.equals(0))
-    assert(output.asInstanceOf[JsonOk].special_records.PC.equals(ctx.sim.cpu.pc.hex))
-    assert(output.asInstanceOf[JsonOk].special_records.SP.equals(ctx.sim.cpu.sp.hex))
-    assert(output.asInstanceOf[JsonOk].special_records.IR.equals(ctx.sim.cpu.ir))
+    assert(output.asInstanceOf[JsonOutOk].special_records.PC.equals(ctx.sim.cpu.pc.hex))
+    assert(output.asInstanceOf[JsonOutOk].special_records.SP.equals(ctx.sim.cpu.sp.hex))
+    assert(output.asInstanceOf[JsonOutOk].special_records.IR.equals(ctx.sim.cpu.ir))
 
-    assert(output.asInstanceOf[JsonOk].flags.C.equals(ctx.sim.cpu.c))
-    assert(output.asInstanceOf[JsonOk].flags.N.equals(ctx.sim.cpu.n))
-    assert(output.asInstanceOf[JsonOk].flags.V.equals(ctx.sim.cpu.v))
-    assert(output.asInstanceOf[JsonOk].flags.Z.equals(ctx.sim.cpu.z))
+    assert(output.asInstanceOf[JsonOutOk].flags.C.equals(ctx.sim.cpu.c))
+    assert(output.asInstanceOf[JsonOutOk].flags.N.equals(ctx.sim.cpu.n))
+    assert(output.asInstanceOf[JsonOutOk].flags.V.equals(ctx.sim.cpu.v))
+    assert(output.asInstanceOf[JsonOutOk].flags.Z.equals(ctx.sim.cpu.z))
 
-    assert(output.asInstanceOf[JsonOk].records.R0.equals(ctx.sim.cpu.registro("R0").get.getValor().hex))
-    assert(output.asInstanceOf[JsonOk].records.R1.equals(ctx.sim.cpu.registro("R1").get.getValor().hex))
-    assert(output.asInstanceOf[JsonOk].records.R2.equals(ctx.sim.cpu.registro("R2").get.getValor().hex))
-    assert(output.asInstanceOf[JsonOk].records.R3.equals(ctx.sim.cpu.registro("R3").get.getValor().hex))
-    assert(output.asInstanceOf[JsonOk].records.R4.equals(ctx.sim.cpu.registro("R4").get.getValor().hex))
-    assert(output.asInstanceOf[JsonOk].records.R5.equals(ctx.sim.cpu.registro("R5").get.getValor().hex))
-    assert(output.asInstanceOf[JsonOk].records.R6.equals(ctx.sim.cpu.registro("R6").get.getValor().hex))
-    assert(output.asInstanceOf[JsonOk].records.R7.equals(ctx.sim.cpu.registro("R7").get.getValor().hex))
+    assert(output.asInstanceOf[JsonOutOk].records.R0.equals(ctx.sim.cpu.registro("R0").get.getValor().hex))
+    assert(output.asInstanceOf[JsonOutOk].records.R1.equals(ctx.sim.cpu.registro("R1").get.getValor().hex))
+    assert(output.asInstanceOf[JsonOutOk].records.R2.equals(ctx.sim.cpu.registro("R2").get.getValor().hex))
+    assert(output.asInstanceOf[JsonOutOk].records.R3.equals(ctx.sim.cpu.registro("R3").get.getValor().hex))
+    assert(output.asInstanceOf[JsonOutOk].records.R4.equals(ctx.sim.cpu.registro("R4").get.getValor().hex))
+    assert(output.asInstanceOf[JsonOutOk].records.R5.equals(ctx.sim.cpu.registro("R5").get.getValor().hex))
+    assert(output.asInstanceOf[JsonOutOk].records.R6.equals(ctx.sim.cpu.registro("R6").get.getValor().hex))
+    assert(output.asInstanceOf[JsonOutOk].records.R7.equals(ctx.sim.cpu.registro("R7").get.getValor().hex))
 
   }
 

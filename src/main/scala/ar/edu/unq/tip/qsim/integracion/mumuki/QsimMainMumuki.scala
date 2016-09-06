@@ -7,7 +7,7 @@ import ar.edu.unq.tpi.qsim.model.Programa
 import ar.edu.unq.tpi.qsim.parser.ArquitecturaQ
 import ar.edu.unq.tpi.qsim.parser.Parser
 import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonResult
-import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonOk
+import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonInputOk
 import ar.edu.unq.tpi.qsim.model.W16
 import scala.collection.mutable.Map
 import org.json4s._
@@ -21,10 +21,10 @@ class QsimMainMumuki {
   var arqCurrent: ArquitecturaQ = _
   var program: Programa = _
   var programCounter = "0000"
-  var input: JsonOk = _
+  var input: JsonInputOk = _
   var registerInput: Map[String, W16] = _
   var flags: Map[String, Any] = _
-  var positionMemoryInput: Map[String, java.util.Map[String, String]] = _
+  var positionMemoryInput: java.util.Map[String, String] = Map[String, String]()
 
   def setPathFile(path: String) {
     if (path != null) {
