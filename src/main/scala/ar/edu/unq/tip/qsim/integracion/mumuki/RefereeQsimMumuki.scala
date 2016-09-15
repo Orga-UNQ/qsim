@@ -1,8 +1,6 @@
 package ar.edu.unq.tip.qsim.integracion.mumuki
 
 import ar.edu.unq.tpi.qsim.integracion.mumuki.{JsonOutPut, JsonError, JsonOutOk}
-import com.google.gson.JsonElement
-
 /**
   * Created by susanrosito on 8/13/16.
   */

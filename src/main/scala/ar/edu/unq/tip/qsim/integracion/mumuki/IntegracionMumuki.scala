@@ -1,11 +1,9 @@
 package ar.edu.unq.tpi.qsim.integracion.mumuki
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import ar.edu.unq.tpi.qsim.model._
-import scala.collection.mutable.Map
-import scala.collection.JavaConversions._
-import scala.collection.JavaConverters._
+import java.lang.reflect._
+import com.google.gson.reflect._
 
 abstract class JsonOutPut
 case class JsonInputOk(var special_records: SpecialRecords, var flags: Flags, var records: Records, var memory: java.util.Map[String, String]) extends JsonOutPut
@@ -20,6 +18,8 @@ class JsonResult {
 
   implicit def registroToString(registro: Registro): String = registro.valor.hex
   var gson = new GsonBuilder().setPrettyPrinting().create()
+  val listType : Type = new TypeToken[java.util.List[JsonInputOk]]() {}.getType()
+    
 
   def buildJsonOk(sim: Simulador) =
     JsonOutOk(
@@ -30,6 +30,7 @@ class JsonResult {
       sim.busIO.stateMemory)
 
   def parserJson(json: String) = {
-    gson.fromJson(json, classOf[JsonInputOk])
+    var tm : java.util.List[JsonInputOk] = gson.fromJson(json, listType)
+    tm
   }
 }
