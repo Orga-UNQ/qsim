@@ -64,9 +64,12 @@ class QsimMainMumuki {
     var inFile = readFile(path)
     new JsonResult().parserJson(inFile)
   }
-   
-  def agregarInput(inputOk: JsonInputOk) {
+
+  def setInput(inputOk: JsonInputOk): Unit ={
     input = inputOk
+  }
+   
+  def loadValuesOfInput() {
     registerInput = Map[String, W16]("R0" -> new W16(input.records.R0), "R1" -> new W16(input.records.R1), "R2" -> new W16(input.records.R2), "R3" -> new W16(input.records.R3), "R4" -> new W16(input.records.R4), "R5" -> new W16(input.records.R5), "R6" -> new W16(input.records.R6), "R7" -> new W16(input.records.R7))
     flags = Map[String, Any]("v" -> input.flags.V, "c" -> input.flags.C, "z" -> input.flags.Z, "n" -> input.flags.N)
     positionMemoryInput = input.memory

@@ -1,4 +1,5 @@
 [{
+  "id": 1,
   "special_records": {
     "PC": "0020",
     "SP": "FFEF",
@@ -34,6 +35,7 @@
   }
 },
 {
+  "id": 2,
   "special_records": {
     "PC": "0030",
     "SP": "FFEF",

@@ -1,12 +1,16 @@
 package ar.edu.unq.tip.qsim.integracion.mumuki
 
+import com.google.gson.GsonBuilder
+
 object runMainMumuki extends App {
 
-  var program = args(0)
-  var arqQ = args(1).toInt - 1
-  var input = args(2)
+  val program = args(0)
+  val arqQ = args(1).toInt - 1
+  val input = args(2)
+  val gson = new GsonBuilder().setPrettyPrinting().create()
 
-  var multExe = new MultExecutor()
-  multExe.exeInputs(program, arqQ, input)
+  val multExe = new MultExecutor()
+  val outputs = multExe.exeInputs(program, arqQ, input)
+  Console.println(gson.toJson(outputs))
   System.exit(0)
 }
