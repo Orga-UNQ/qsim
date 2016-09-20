@@ -162,8 +162,15 @@ case class Memoria(var tamanio: Int) {
   /**
    * Pone un valor (W16) en la celda que se le indica por parametro en valor hexadecimal.
    * @param String, W16
-   */
+   */ 
   def setValor(celda: String, valor: W16) = setValorC(Util.hexToInteger(celda), valor)
+  
+  /**
+   * Verificar si la celda pertenece a la memoria principal.
+   * @param String
+   * @return Boolean
+   */
+  def isCelda(celda: String) =  (0 <= Util.hexToInteger(celda)) && (Util.hexToInteger(celda) < tamanioMemoria())
 
   /**
    * Muestra la memoria imprimiendola a partir de un numero de celda en hexadecimal.

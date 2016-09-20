@@ -53,11 +53,12 @@ case class Simulador() {
   var instruccionActual: Instruccion = _
   var celdaInstruccionActual: ArrayBuffer[Celda] = ArrayBuffer[Celda]()
   var programaActual: Programa = _
+  var inputExeActual : Integer = _
 
   /**
    * Inicializa el sumulador, crea la memoria y el CPU.
    */
-  def inicializarSim(flags: Map[String, Any], stateMemory: Map[String, Map[String,String]]) {
+  def inicializarSim(flags: Map[String, Any], stateMemory: java.util.Map[String,String]) {
     cpu = CPU()
     cpu.actualizarFlags(flags)
     busIO = new BusEntradaSalida()
@@ -67,6 +68,10 @@ case class Simulador() {
     agregarMensaje("El programa compilado ha sido cargado en la memoria con exito")
   }
 
+
+  def setInputExeActual(id: Integer): Unit ={
+    inputExeActual = id
+  }
   /**
    * Toma un programa y devuelve si tiene alguna etiqueta invalida
    * @param Programa
