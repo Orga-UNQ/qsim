@@ -1,18 +1,12 @@
 package ar.edu.unq.tip.qsim.integracion.mumuki
 
 import scala.collection.JavaConversions._
-import scala.collection.JavaConverters._
-import org.uqbar.commons.utils.Observable
 import ar.edu.unq.tpi.qsim.model.Programa
 import ar.edu.unq.tpi.qsim.parser.ArquitecturaQ
 import ar.edu.unq.tpi.qsim.parser.Parser
 import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonResult
-import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonInputOk
 import ar.edu.unq.tpi.qsim.model.W16
 import scala.collection.mutable.Map
-import org.json4s._
-import org.json4s.jackson.JsonMethods._
-import com.lambdaworks.jacks.JacksMapper
 import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonInputOk
 
 class QsimMainMumuki {
