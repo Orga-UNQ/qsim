@@ -6,13 +6,13 @@ import java.lang.reflect._
 import com.google.gson.reflect._
 
 abstract class JsonOutPut
-case class JsonInputOk(var id: Integer, var special_records: SpecialRecords, var flags: Flags, var records: Records, var memory: java.util.Map[String, String]) extends JsonOutPut
-case class JsonOutOk(var id: Integer, var special_records: SpecialRecords, var flags: Flags, var records: Records, var memory: java.util.Map[String, java.util.List[String]]) extends JsonOutPut
+case class JsonInputOk(var id: Int, var special_records: SpecialRecords, var flags: Flags, var records: Records, var memory: java.util.Map[String, String]) extends JsonOutPut
+case class JsonOutOk(var id: Int, var special_records: SpecialRecords, var flags: Flags, var records: Records, var memory: java.util.Map[String, java.util.List[String]]) extends JsonOutPut
 case class SpecialRecords(val PC: String, val SP: String, val IR: String) extends JsonOutPut
 case class Flags(val N: Int, val Z: Int, val V: Int, val C: Int) extends JsonOutPut
 case class Records(val R0: String, val R1: String, val R2: String, val R3: String, val R4: String,
                    val R5: String, val R6: String, val R7: String) extends JsonOutPut
-case class JsonError(val error: String, val kind: String) extends JsonOutPut
+case class JsonError(val id: Int, val error: String, val kind: String) extends JsonOutPut
 
 class JsonResult {
 

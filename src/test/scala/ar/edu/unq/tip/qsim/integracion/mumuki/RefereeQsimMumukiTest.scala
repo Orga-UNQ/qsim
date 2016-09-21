@@ -62,33 +62,36 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
   def contextOk = new {
 
     val programa = programtets.programaOk
-    val qsiMain = new QsimMainMumuki()
+    var qsiMain = new QsimMainMumuki()
     val sim = Simulador()
+
 
     qsiMain.program = programa
     qsiMain.setInput(contextqsiMain.jsonInput)
     qsiMain.selectArqQ(contextqsiMain.arqQ)
     qsiMain.loadValuesOfInput()
 
+    sim.setInputExeActual(qsiMain.input.id)
     val result = contextqsiMain.multExe.runQsim(sim, qsiMain)
   }
 
   def contextExe = new {
 
     var programa = programtets.programaExe
-    val qsiMain = new QsimMainMumuki()
+    var qsiMain = new QsimMainMumuki()
     val sim = Simulador()
 
     qsiMain.program = programa
     qsiMain.setInput(contextqsiMain.jsonInput)
     qsiMain.selectArqQ(contextqsiMain.arqQ)
     qsiMain.loadValuesOfInput()
+    sim.setInputExeActual(qsiMain.input.id)
 
     val result =
       try {
         contextqsiMain.multExe.runQsim(sim, qsiMain)
       } catch {
-        case ex: UserException => JsonError(ex.getMessage, "runtime")
+        case ex: UserException => JsonError(qsiMain.input.id, ex.getMessage, "runtime")
       }
   }
 
@@ -96,19 +99,20 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
 
     var programa = programtets.programaOk
     val qsiMain = new QsimMainMumuki()
-    val sim = Simulador()
+    var sim = Simulador()
     val arqQ = 0
 
     qsiMain.program = programa
     qsiMain.setInput(contextqsiMain.jsonInput)
     qsiMain.selectArqQ(arqQ)
     qsiMain.loadValuesOfInput()
+    sim.setInputExeActual(qsiMain.input.id)
 
     val result =
       try {
         sim.inicializarSim(qsiMain.flags, qsiMain.positionMemoryInput)
       } catch {
-        case ex: UserException => JsonError(ex.getMessage, "runtime")
+        case ex: UserException => JsonError(qsiMain.input.id, ex.getMessage, "runtime")
       }
   }
 
@@ -116,79 +120,85 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
 
     var programa = programtets.programaCom
     val qsiMain = new QsimMainMumuki()
-    val sim = Simulador()
+    var sim = Simulador()
     val arqQ = 5
 
     qsiMain.program = programa
     qsiMain.setInput(contextqsiMain.jsonInput)
     qsiMain.selectArqQ(arqQ)
     qsiMain.loadValuesOfInput()
+    sim.setInputExeActual(qsiMain.input.id)
 
     val result =
       try {
         contextqsiMain.multExe.runQsim(sim, qsiMain)
       } catch {
-        case ex: UserException => JsonError(ex.getMessage, "runtime")
+        case ex: UserException => JsonError(qsiMain.input.id, ex.getMessage, "runtime")
       }
   }
 
   //------------------------------------------------------Caso exitoso------------
 
-  "Un Programa" should "ejecutar exitosamente si esta bien escrito y la arquitectura elegida es la correcta" in {
-    val (code, output) = contextqsiMain.refereeQsim.evalResult(contextOk.result)
+  "Un Programa" should "ejecutar exitosamente si esta bien escrito y la arquitectura elegida es la correcta. Tambien se verifica su id." in {
+    val code = contextqsiMain.refereeQsim.getExit(contextOk.result)
+    val output = contextqsiMain.refereeQsim.getResultOk(contextOk.result)
+    val idCode = contextqsiMain.jsonInput.id
+
     assert(code.equals(0))
+    assert(idCode.equals(output.id))
   }
 
   "La Ejecucion de un Programa" should "devolver el estado de los registros especiales cuando se ejecuta exitosamente" in {
-    val (code, output) = contextqsiMain.refereeQsim.evalResult(contextOk.result)
-    val jsonOutOk = output.asInstanceOf[JsonOutOk]
+    val output  = contextqsiMain.refereeQsim.getResultOk(contextOk.result)
 
-    assert(jsonOutOk.special_records.PC.equals(contextOk.sim.cpu.pc.hex))
-    assert(jsonOutOk.special_records.SP.equals(contextOk.sim.cpu.sp.hex))
-    assert(jsonOutOk.special_records.IR.equals(contextOk.sim.cpu.ir))
+    assert(output.special_records.PC.equals(contextOk.sim.cpu.pc.hex))
+    assert(output.special_records.SP.equals(contextOk.sim.cpu.sp.hex))
+    assert(output.special_records.IR.equals(contextOk.sim.cpu.ir))
   }
 
   "La Ejecucion de un Programa" should "devolver el estado de los flags cuando se ejecuta exitosamente" in {
-    val (code, output) = contextqsiMain.refereeQsim.evalResult(contextOk.result)
-    val jsonOutOk = output.asInstanceOf[JsonOutOk]
+    val output = contextqsiMain.refereeQsim.getResultOk(contextOk.result)
 
-    assert(jsonOutOk.flags.C.equals(contextOk.sim.cpu.c))
-    assert(jsonOutOk.flags.N.equals(contextOk.sim.cpu.n))
-    assert(jsonOutOk.flags.V.equals(contextOk.sim.cpu.v))
-    assert(jsonOutOk.flags.Z.equals(contextOk.sim.cpu.z))
+    assert(output.flags.C.equals(contextOk.sim.cpu.c))
+    assert(output.flags.N.equals(contextOk.sim.cpu.n))
+    assert(output.flags.V.equals(contextOk.sim.cpu.v))
+    assert(output.flags.Z.equals(contextOk.sim.cpu.z))
   }
 
   "La Ejecucion de un Programa" should "devolver el estado de sus registros cuando se ejecuta exitosamente" in {
-    val (code, output) = contextqsiMain.refereeQsim.evalResult(contextOk.result)
-    val jsonOutOk = output.asInstanceOf[JsonOutOk]
+    val output = contextqsiMain.refereeQsim.getResultOk(contextOk.result)
 
-    assert(jsonOutOk.records.R0.equals(contextOk.sim.cpu.registro("R0").get.getValor().hex))
-    assert(jsonOutOk.records.R1.equals(contextOk.sim.cpu.registro("R1").get.getValor().hex))
-    assert(jsonOutOk.records.R2.equals(contextOk.sim.cpu.registro("R2").get.getValor().hex))
-    assert(jsonOutOk.records.R3.equals(contextOk.sim.cpu.registro("R3").get.getValor().hex))
-    assert(jsonOutOk.records.R4.equals(contextOk.sim.cpu.registro("R4").get.getValor().hex))
-    assert(jsonOutOk.records.R5.equals(contextOk.sim.cpu.registro("R5").get.getValor().hex))
-    assert(jsonOutOk.records.R6.equals(contextOk.sim.cpu.registro("R6").get.getValor().hex))
-    assert(jsonOutOk.records.R7.equals(contextOk.sim.cpu.registro("R7").get.getValor().hex))
+    assert(output.records.R0.equals(contextOk.sim.cpu.registro("R0").get.getValor().hex))
+    assert(output.records.R1.equals(contextOk.sim.cpu.registro("R1").get.getValor().hex))
+    assert(output.records.R2.equals(contextOk.sim.cpu.registro("R2").get.getValor().hex))
+    assert(output.records.R3.equals(contextOk.sim.cpu.registro("R3").get.getValor().hex))
+    assert(output.records.R4.equals(contextOk.sim.cpu.registro("R4").get.getValor().hex))
+    assert(output.records.R5.equals(contextOk.sim.cpu.registro("R5").get.getValor().hex))
+    assert(output.records.R6.equals(contextOk.sim.cpu.registro("R6").get.getValor().hex))
+    assert(output.records.R7.equals(contextOk.sim.cpu.registro("R7").get.getValor().hex))
   }
   // ---------------------------------------------------Caso Erroneo ---------
 
   "Un Programa" should " ejecutar incorrectamente cuando ocurre un error en su ejecucion: Caso  => Modo Inmediato en Destino" in {
-    val (code, output) = contextqsiMain.refereeQsim.evalResult(contextExe.result)
-    val jsonOutError = output.asInstanceOf[JsonError]
+    val output = contextqsiMain.refereeQsim.getResultError(contextExe.result)
+    val code = contextqsiMain.refereeQsim.getExit(contextExe.result)
+    val idCode = contextqsiMain.jsonInput.id
 
     assert(code.equals(-1))
-    assert(jsonOutError.error.equals("Un Inmediato no puede ser un operando destino."))
+    assert(idCode.equals(output.id))
+    assert(output.error.equals("Un Inmediato no puede ser un operando destino."))
   }
 
   // ---------------------------------------------------Caso Compilacion---------
 
   "Un Programa" should " ejecutar incorrectamente cuando ocurre un error de compilacion : Caso => llamar a una rutina que no existe" in {
-    val (code, output) = contextqsiMain.refereeQsim.evalResult(contextCom.result)
-    val jsonOutError = output.asInstanceOf[JsonError]
+    val output = contextqsiMain.refereeQsim.getResultError(contextCom.result)
+    val code = contextqsiMain.refereeQsim.getExit(contextCom.result)
+    val idCode = contextqsiMain.jsonInput.id
 
     assert(code.equals(-1))
-    assert(jsonOutError.error.equals("Una de las etiquetas utilizadas es invalida"))
+    assert(idCode.equals(output.id))
+    assert(output.error.equals("Una de las etiquetas utilizadas es invalida"))
   }
 
   "El Simulador" should " cargar correctamente el estado inicial de cada celda de memoria que se indica en el archivo input" in {
@@ -203,20 +213,21 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
   }
 
   "El Simulador" should " devolver el estado total de la memoria, por ende el output tiene que tener el tam memoria / 16" in {
-    val (code, output) = contextqsiMain.refereeQsim.evalResult(contextOk.result)
+    val output = contextqsiMain.refereeQsim.getResultOk(contextOk.result)
 
     val jsonInput = contextqsiMain.jsonInput
-    val outMemory = output.asInstanceOf[JsonOutOk].memory
+    val outMemory = output.memory
     val memory = contextOk.sim.busIO.memoria
     val countSet = memory.tamanioMemoria() / 16
 
+    assert(jsonInput.id.equals(output.id))
     assert(outMemory.keySet().size().equals(countSet))
   }
 
   "El Simulador" should " devolver el estado total de la memoria, validando el valor de la celda 1001" in {
-    val (code, output) = contextqsiMain.refereeQsim.evalResult(contextOk.result)
+    val output = contextqsiMain.refereeQsim.getResultOk(contextOk.result)
 
-    val outMemory = output.asInstanceOf[JsonOutOk].memory
+    val outMemory = output.memory
     val memory = contextOk.sim.busIO.memoria
     val valueOut = outMemory.get("1000").get(1)
 

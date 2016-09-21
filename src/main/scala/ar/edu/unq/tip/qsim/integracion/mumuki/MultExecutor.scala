@@ -27,22 +27,22 @@ class MultExecutor {
     outputs
   }
 
-  def exeProgramWithInput(program: String, arqQ: Integer, in: JsonInputOk)={
+  def exeProgramWithInput(program: String, arqQ: Integer, input: JsonInputOk)={
     val sim = new Simulador()
-    sim.setInputExeActual(in.id)
+    sim.setInputExeActual(input.id)
     val result : JsonOutPut =
       try {
         qsiMain.setPathFile(program)
         qsiMain.selectArqQ(arqQ)
-        qsiMain.setInput(in)
+        qsiMain.setInput(input)
         qsiMain.loadValuesOfInput()
         qsiMain.ensamblar()
         runQsim(sim, qsiMain)
       } catch {
-        case ex: SyntaxErrorException  => JsonError(ex.getMessage, "syntax")
-        case ex: RuntimeErrorException => JsonError(ex.getMessage, "runtime")
-        case ex: UserException         => JsonError(ex.getMessage, "runtime")
-        case ex: Throwable             => JsonError(ex.getMessage, "unknown")
+        case ex: SyntaxErrorException  => JsonError(input.id, ex.getMessage, "syntax")
+        case ex: RuntimeErrorException => JsonError(input.id, ex.getMessage, "runtime")
+        case ex: UserException         => JsonError(input.id, ex.getMessage, "runtime")
+        case ex: Throwable             => JsonError(input.id, ex.getMessage, "unknown")
       }
     qsiMain.cleanState()
     result
