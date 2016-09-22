@@ -2,7 +2,7 @@ package ar.edu.unq.tip.qsim.integracion.mumuki
 
 import java.util
 import ar.edu.unq.tpi.qsim.exeptions.{RuntimeErrorException, SyntaxErrorException}
-import ar.edu.unq.tpi.qsim.integracion.mumuki.{JsonError, JsonOutPut, JsonInputOk}
+import ar.edu.unq.tpi.qsim.integracion.mumuki.{JsonError, JsonOutPut, JsonQ}
 import ar.edu.unq.tpi.qsim.model.Simulador
 import org.uqbar.commons.model.UserException
 import scala.collection.JavaConversions._
@@ -16,7 +16,7 @@ class MultExecutor {
 
   def exeInputs(program: String, arqQ: Integer, input: String)={
     val refereeQsim = new RefereeQsimMumuki()
-    val inputs: java.util.List[JsonInputOk] = qsiMain.inputParser(input)
+    val inputs: java.util.List[JsonQ] = qsiMain.inputParser(input)
     val outputs: java.util.List[JsonOutPut] = new util.LinkedList[JsonOutPut]()
 
     for(in <- inputs) {
@@ -27,7 +27,7 @@ class MultExecutor {
     outputs
   }
 
-  def exeProgramWithInput(program: String, arqQ: Integer, input: JsonInputOk)={
+  def exeProgramWithInput(program: String, arqQ: Integer, input: JsonQ)={
     val sim = new Simulador()
     sim.setInputExeActual(input.id)
     val result : JsonOutPut =

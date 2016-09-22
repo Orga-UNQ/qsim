@@ -47,20 +47,20 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
 
     val arqQ = 0
     val multExe = new MultExecutor()
-    var refereeQsim = new RefereeQsimMumuki()
+    val refereeQsim = new RefereeQsimMumuki()
 
     val specialRecords = SpecialRecords("0000", "FFEF", "0000")
     val flags = Flags(0, 0, 0, 0)
     val records = Records("0000", "0000", "0000", "0000", "0000", "0000", "0000", "0000")
     val memory = Map[String, String]("1000" -> "0002", "1001" -> "0003", "1002" -> "0004", "1003" -> "0005")
-    val jsonInput = JsonInputOk(1, specialRecords, flags, records, memory)
+    val jsonInput = JsonQ(1, specialRecords, flags, records, memory)
   }
 
   def contextOk = new {
 
     val program = programs.programaOk
-    var qsiMain = new QsimMainMumuki()
-    var sim = Simulador()
+    val qsiMain = new QsimMainMumuki()
+    val sim = Simulador()
 
     qsiMain.program = program
     qsiMain.setInput(contextQsiMain.jsonInput)
@@ -75,8 +75,8 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
   def contextExe = new {
 
     val program = programs.programaExe
-    var qsiMain = contextOk.qsiMain
-    var sim = contextOk.sim
+    val qsiMain = contextOk.qsiMain
+    val sim = contextOk.sim
 
     qsiMain.program = program
     val result =
@@ -88,9 +88,9 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
   }
   def contextCom = new {
 
-    var program = programs.programaCom
-    var qsiMain = contextOk.qsiMain
-    var sim = contextOk.sim
+    val program = programs.programaCom
+    val qsiMain = contextOk.qsiMain
+    val sim = contextOk.sim
     val arqQ = 5
 
     qsiMain.program = program
@@ -109,7 +109,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
   "Un Programa" should "ejecutar exitosamente si esta bien escrito y la arquitectura elegida es la correcta. Tambien se verifica su id." in {
     val (code, out) = contextQsiMain.refereeQsim.evalResult(contextOk.result)
     val idCode = contextQsiMain.jsonInput.id
-    val output = out.asInstanceOf[JsonOutOk]
+    val output = out.asInstanceOf[JsonQ]
 
     assert(code.equals(0))
     assert(idCode.equals(output.id))
@@ -124,7 +124,7 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
 
     assert(code.equals(-1))
     assert(idCode.equals(output.id))
-    //assert(output.error.equals("Un Inmediato no puede ser un operando destino."))
+    assert(output.error.equals("Un Inmediato no puede ser un operando destino."))
   }
 
   // ---------------------------------------------------Caso Compilacion---------
@@ -135,6 +135,6 @@ class RefereeQsimMumukiTest extends FlatSpec with Matchers {
     val output = out.asInstanceOf[JsonError]
     assert(code.equals(-1))
     assert(idCode.equals(output.id))
-    //assert(output.error.equals("Una de las etiquetas utilizadas es invalida"))
+    assert(output.error.equals("Una de las etiquetas utilizadas es invalida"))
   }
 }

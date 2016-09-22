@@ -7,7 +7,7 @@ import ar.edu.unq.tpi.qsim.parser.Parser
 import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonResult
 import ar.edu.unq.tpi.qsim.model.W16
 import scala.collection.mutable.Map
-import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonInputOk
+import ar.edu.unq.tpi.qsim.integracion.mumuki.JsonQ
 
 class QsimMainMumuki {
 
@@ -16,7 +16,7 @@ class QsimMainMumuki {
   var arqCurrent: ArquitecturaQ = _
   var program: Programa = _
   var programCounter = "0000"
-  var input: JsonInputOk = _
+  var input: JsonQ = _
   var registerInput: Map[String, W16] = _
   var flags: Map[String, Any] = _
   var positionMemoryInput: java.util.Map[String, String] = Map[String, String]()
@@ -59,7 +59,7 @@ class QsimMainMumuki {
     new JsonResult().parserJson(inFile)
   }
 
-  def setInput(inputOk: JsonInputOk): Unit ={
+  def setInput(inputOk: JsonQ): Unit ={
     input = inputOk
   }
    
