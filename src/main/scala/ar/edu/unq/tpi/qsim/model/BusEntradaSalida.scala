@@ -20,7 +20,6 @@ package ar.edu.unq.tpi.qsim.model
  */
 
 import scala.collection.JavaConversions._
-import scala.collection.JavaConverters._
 import scala.collection.mutable._
 import ar.edu.unq.tpi.qsim.utils.Util
 
@@ -28,11 +27,10 @@ class BusEntradaSalida {
 
   var memoria: Memoria = _
   var puertos: CeldasPuertos = _
-  var stateMemory: java.util.Map[String, java.util.List[String]] = Map[String, java.util.List[String]]()
+  var stateMemory: java.util.Map[String, String] = Map[String, String]()
   
   def initialize() {
     memoria = Memoria(65536)
-    //memoria = Memoria(736)
     memoria.initialize
     puertos = new CeldasPuertos()
     puertos.initialize()
@@ -40,7 +38,8 @@ class BusEntradaSalida {
 
   /**
    * Recibe un entero y devuelve el valor de la celda en memoria o de puertos segun corresponda en esa posicion.
-   * @param Int
+    *
+    * @param Int
    * @return W16
    */
   def getValor(pc: Int): W16 = {
@@ -51,7 +50,7 @@ class BusEntradaSalida {
 
   /**
    * Recibe un W16 y devuelve el valor de la celda en memoria o de puertos segun corresponda en esa posicion.
-   * @param W16
+    * @param W16
    * @return W16
    */
   def getValor(pc: W16): W16 = {
@@ -60,7 +59,8 @@ class BusEntradaSalida {
 
   /**
    * Recibe un String en Hexadecimal y devuelve el valor de la celda en memoria o de puertos segun corresponda en esa posicion.
-   * @param String
+    *
+    * @param String
    * @return W16
    */
   def getValor(pc: String): W16 = {
@@ -69,7 +69,8 @@ class BusEntradaSalida {
 
   /**
    * Pone un valor (W16) en la celda de memoria o reservada para puertos segun corresponda que se le indica por parametro.
-   * @param Int, W16
+    *
+    * @param Int, W16
    */
   def setValorC(celda: Int, dato: W16) = {
     if ((celda >= 65520) && (celda <= 65535)) {
@@ -79,13 +80,15 @@ class BusEntradaSalida {
 
   /**
    * Pone un valor (W16) en la celda de memoria o reservada para puertos segun corresponda que se le indica por parametro en valor hexadecimal.
-   * @param String, W16
+    *
+    * @param String, W16
    */
   def setValor(celda: String, valor: W16) = setValorC(Util.hexToInteger(celda), valor)
 
   /**
    * Cambia el estado de una celda de memoria o reservada para puertos por el pasado por parametro.
-   * @param Int, Int
+    *
+    * @param Int, Int
    */
   def setStateCelda(num_celda: Int, state: State.Type) = {
     if ((num_celda >= 65520) && (num_celda <= 65535)) {
@@ -103,28 +106,20 @@ class BusEntradaSalida {
   }
 
   /**
-   * Esta funcion recibe como parametros el estado de la memoria para generar un diccionario ue permita mostrar dicho estado de manera simple.
-   */
+    * Esta funcion recibe como parametros el estado de la memoria para generar un diccionario ue permita mostrar dicho estado de manera simple.
+    */
   def getStateOfMemory() = {
     var contador = 0
-    var filaActual = 15
-    var celdaInit = new W16("0000")
     var celdaContador = new W16("0000")
     var sizeMemory = memoria.tamanioMemoria()
-    var fila16celdas : java.util.List[String] = scala.collection.mutable.ArrayBuffer[String]()
-    
+
     do {
-      if (contador <= filaActual){
-        stateMemory(celdaInit.toString()) = fila16celdas.+=(memoria.getValor(celdaContador).toString())
-      }else{
-        fila16celdas = scala.collection.mutable.ArrayBuffer[String]()
-        celdaInit.++(16)
-        filaActual = filaActual + 16
-        stateMemory(celdaInit.toString()) = fila16celdas.+=(memoria.getValor(celdaContador).toString())
+      if (!memoria.isEmpty(celdaContador)) {
+        stateMemory(celdaContador.hex) = memoria.getValor(celdaContador).hex
       }
       celdaContador.++
       contador = contador + 1
-      } while (contador < sizeMemory)
-      stateMemory
-   }
+    } while (contador < sizeMemory)
+    stateMemory
+  }
 }

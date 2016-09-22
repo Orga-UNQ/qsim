@@ -192,6 +192,15 @@ case class Memoria(var tamanio: Int) {
     memoria_view
   }
 
+  /**
+    * Verifica si la celda que se pasa por parametro esta vacia, chequeando si contiene el valor "0000".
+    * @param W16
+    * @return Boolean
+    */
+  def isEmpty(dir: W16): Boolean = {
+    val zero = new W16("0000")
+    return getValor(dir).equals(zero)
+  }
 }
 
 object Testing extends App {

@@ -1,6 +1,6 @@
 package ar.edu.unq.tip.qsim.integracion.mumuki
 
-import ar.edu.unq.tpi.qsim.integracion.mumuki.{JsonError, JsonOutOk}
+import ar.edu.unq.tpi.qsim.integracion.mumuki.{JsonQ, JsonError}
 import ar.edu.unq.tpi.qsim.model.Simulador
 import org.uqbar.commons.model.UserException
 import scala.collection.JavaConversions._
@@ -34,7 +34,7 @@ class MultExecutorTest  extends RefereeQsimMumukiTest {
 
   "La Ejecucion de un Programa" should "devolver el estado de los registros especiales cuando se ejecuta exitosamente" in {
     val (_,out)  = contextQsiMain.refereeQsim.evalResult(contextOk.result)
-    val output = out.asInstanceOf[JsonOutOk]
+    val output = out.asInstanceOf[JsonQ]
 
     assert(output.special_records.PC.equals(contextOk.sim.cpu.pc.hex))
     assert(output.special_records.SP.equals(contextOk.sim.cpu.sp.hex))
@@ -43,7 +43,7 @@ class MultExecutorTest  extends RefereeQsimMumukiTest {
 
   "La Ejecucion de un Programa" should "devolver el estado de los flags cuando se ejecuta exitosamente" in {
     val (_, out) = contextQsiMain.refereeQsim.evalResult(contextOk.result)
-    val output = out.asInstanceOf[JsonOutOk]
+    val output = out.asInstanceOf[JsonQ]
 
     assert(output.flags.C.equals(contextOk.sim.cpu.c))
     assert(output.flags.N.equals(contextOk.sim.cpu.n))
@@ -53,7 +53,7 @@ class MultExecutorTest  extends RefereeQsimMumukiTest {
 
   "La Ejecucion de un Programa" should "devolver el estado de sus registros cuando se ejecuta exitosamente" in {
     val (_, out) = contextQsiMain.refereeQsim.evalResult(contextOk.result)
-    val output = out.asInstanceOf[JsonOutOk]
+    val output = out.asInstanceOf[JsonQ]
 
     assert(output.records.R0.equals(contextOk.sim.cpu.registro("R0").get.getValor().hex))
     assert(output.records.R1.equals(contextOk.sim.cpu.registro("R1").get.getValor().hex))
@@ -77,27 +77,39 @@ class MultExecutorTest  extends RefereeQsimMumukiTest {
     }
   }
 
-  "El Simulador" should " devolver el estado total de la memoria, por ende el output tiene que tener el tam memoria / 16" in {
+  "El Simulador" should " devolver el estado de la memoria, compuesto por las celdas que contienen informacion, incluyendo las celdas que se cargaron con el input" in {
     val (_, out) = contextQsiMain.refereeQsim.evalResult(contextOk.result)
-    val output = out.asInstanceOf[JsonOutOk]
+    val output = out.asInstanceOf[JsonQ]
 
     val jsonInput = contextQsiMain.jsonInput
     val outMemory = output.memory
-    val memory = contextOk.sim.busIO.memoria
-    val countSet = memory.tamanioMemoria() / 16
 
-    assert(jsonInput.id.equals(output.id))
-    assert(outMemory.keySet().size().equals(countSet))
+    // todas las celdas que se cargan en el input deberian ser parte del estado de la memoria
+    for (dir <- jsonInput.memory.keySet()){
+      assert(outMemory.containsKey(dir))
+    }
   }
 
-  "El Simulador" should " devolver el estado total de la memoria, validando el valor de la celda 1001" in {
+  "El Simulador" should " devolver el estado la memoria, conteniendo como minimo la informacion del programa a ejecutar" in {
     val (_, out) = contextQsiMain.refereeQsim.evalResult(contextOk.result)
-    val output = out.asInstanceOf[JsonOutOk]
+    val output = out.asInstanceOf[JsonQ]
 
     val outMemory = output.memory
     val memory = contextOk.sim.busIO.memoria
-    val valueOut = outMemory.get("1000").get(1)
 
-    assert(valueOut.equals(memory.getValor("1001").hex))
+    // como minimo el tamaño del programa.
+    assert(outMemory.keySet().size() >= contextOk.program.tamanioDelPrograma())
+  }
+
+  "El Simulador" should " devolver el estado la memoria, dicho estado deberia contener el valor de la celda 1000 que se cargo en el input" in {
+    val (_, out) = contextQsiMain.refereeQsim.evalResult(contextOk.result)
+    val output = out.asInstanceOf[JsonQ]
+
+    val outMemory = output.memory
+    val memory = contextOk.sim.busIO.memoria
+    val celda = "1000"
+
+    assert(outMemory.containsKey(celda))
+    assert(outMemory(celda).equals(memory.getValor(celda).hex))
   }
 }
