@@ -51,6 +51,6 @@ class MultExecutor {
   def runQsim(sim: Simulador, qsiMain: QsimMainMumuki)={
     sim.inicializarSim(qsiMain.flags, qsiMain.positionMemoryInput)
     sim.cargarProgramaYRegistros(qsiMain.program, qsiMain.input.special_records.PC, qsiMain.registerInput)
-    sim.execute_all_program()
+    sim.execute_all_program(qsiMain)
   }
 }

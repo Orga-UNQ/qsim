@@ -44,7 +44,6 @@ object Programa {
 
 class Programa(var instrucciones: List[Instruccion], var etiquetas: Map[String, Instruccion] = Map()) {
   var indice = 0
-
   /**
    * Devuelve el tamanio del programa
    * @return Int
@@ -52,29 +51,13 @@ class Programa(var instrucciones: List[Instruccion], var etiquetas: Map[String, 
   def tamanioDelPrograma(): Int = (instrucciones.map(i => i.tamanioHex).fold(0)(_ + _)) / 4
 
   /**
-   * Actualiza el indice, aumentandolo en uno
-   *
-   */
-  def actualizarIndice() {
-    indice = indice + 1
-  }
-
-  /**
-   * Obtiene la siguiente instruccion segun lo indique el indice y lo aumenta.
-   * @return Instruccion
-   */
-  def obtenerInstruccion(): Instruccion = {
-    var siguienteInstruccion = instrucciones(indice)
-    actualizarIndice()
-    siguienteInstruccion
-  }
-
-  /**
    * Retorna un booleano verificando si el programa termino.
    * @return Boolean
    */
-  def finalizo(): Boolean = {
-    indice == (instrucciones.length)
+  def finalizo(pcInput: String, pcActual :W16): Boolean = {
+    val pcIn = new W16(pcInput)
+    pcIn ++ tamanioDelPrograma()
+    pcActual.equals(pcIn)
   }
   /**
    * Retorna si dos programas son iguales. Esto ocurre cuando tiene el mismo tamanio y las mismas instrucciones.

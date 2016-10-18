@@ -1,0 +1,8 @@
+CALL main
+mulPorDos: MUL R1, 0x0002
+           RET
+main: MOV R1, 0x0002
+CALL mulPorDos
+CALL mulPorDos
+CALL mulPorDos
+CALL mulPorDos

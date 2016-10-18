@@ -1,6 +1,8 @@
 package ar.edu.unq.tpi.qsim.model
 
 import java.util.Calendar
+import ar.edu.unq.tip.qsim.integracion.mumuki.QsimMainMumuki
+
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.Map
 import org.uqbar.commons.utils.Observable
@@ -74,6 +76,7 @@ case class Simulador() {
   }
   /**
    * Toma un programa y devuelve si tiene alguna etiqueta invalida
+ *
    * @param Programa
    * @return Boolean
    */
@@ -87,6 +90,7 @@ case class Simulador() {
   }
   /**
    * Verifica deacuerdo al operando que le pasan si es una etiqueta y si es invalida
+ *
    * @param Operando , Programa
    * @return Boolean
    */
@@ -100,6 +104,7 @@ case class Simulador() {
 
   /**
    * Toma un pc de inicio (W16) y un programa y le asigna a cada instruccion una posicion
+ *
    * @param W16, Programa
    * @return Programa
    */
@@ -114,6 +119,7 @@ case class Simulador() {
 
   /**
    * Calcula de acuerdo al operando que le pasan el valor de la etiqueta
+ *
    * @param Operando , Programa
    * @return W16
    */
@@ -126,6 +132,7 @@ case class Simulador() {
   }
   /**
    * Calcula de acuerdo al operando que le pasan el valor de la etiqueta
+ *
    * @param Operando , Programa
    * @return W16
    */
@@ -139,6 +146,7 @@ case class Simulador() {
 
   /**
    * Calcula de acuerdo al operando que le pasan el valor de la etiqueta
+ *
    * @param Operando , Programa
    * @return W16
    */
@@ -171,6 +179,7 @@ case class Simulador() {
 
   /**
    * Carga el programa en memoria, a partir de un pc hexadecimal (String) y los registros que recibe dentro de un map
+ *
    * @param Programa, String, Map[String,W16]
    */
   def cargarProgramaYRegistros(programa: Programa, pc: String, registros: Map[String, W16]) {
@@ -195,6 +204,7 @@ case class Simulador() {
   /**
    * Obtiene la proxima instruccion en representacion binaria. Toma tres celdas (ya que es el maximo que pueda ocupar una instruccion), si en la
    * memoria no quedan tantas, toma las que quedan nada mas. De no haber ninguna lanza una exepcion.
+ *
    * @throws CeldaFueraDeMemoriaExeption
    * @return String
    */
@@ -247,6 +257,7 @@ case class Simulador() {
 
   /**
    * Obtiene el valor alojado en el modo de direccionamiento que es pasado por parametro
+ *
    * @param ModoDireccionamiento
    * @return W16
    */
@@ -292,10 +303,9 @@ case class Simulador() {
   /**
    * Simula la ejecucion de todas las etapas de ciclo de instruccion a cada una de las instrucciones del programa. Ejecuta todo el programa.
    */
-  def execute_all_program() = {
-    while (!programaActual.finalizo()) {
+  def execute_all_program(qsimMain : QsimMainMumuki) = {
+    while (!programaActual.finalizo(qsimMain.input.special_records.PC, cpu.pc)) {
       execute_complete()
-      programaActual.actualizarIndice()
     }
     var stMemory = busIO.getStateOfMemory()
     busIO.stateMemory = stMemory
@@ -344,6 +354,7 @@ case class Simulador() {
 
   /**
    * Simula el store. Recibe un valor que es guardado en el modo de direccionamiento enviado por parametro.
+ *
    * @param ModoDireccionamento, W16
    */
   def store(modoDir: ModoDireccionamiento, un_valor: W16) {
@@ -380,12 +391,14 @@ case class Simulador() {
 
   /**
    * Ejecuta el JMP, es decir, cambia el valor del pc por el que recibe por parametro que es el que tiene el JMP.
+ *
    * @param W16
    */
   def executeJMP(valor: W16) = cpu.pc.:=(valor.hex)
 
   /**
    *  Ejecuta el JUMP condicional. Recibe el valor de la condicion y si este es verdadero, incrementa el pc segun lo indique el salto.
+ *
    *  @param Salto, Boolean
    */
   def executeJMPCondicional(salto: Salto, condicion: Boolean) {
@@ -405,6 +418,7 @@ case class Simulador() {
   /**
    * Ejecuta el CALL. Guarda el pc segund donde aputa el stack pointer (sp), decrementa el stack pointer y
    * pone en el pc el valor que tiene el CALL para llamar a la subrutina correspondiente.
+ *
    * @param W16
    */
   def executeCall(valor: W16) {
@@ -420,6 +434,7 @@ case class Simulador() {
 
   /**
    * Ejecuta el PUSH.
+ *
    * @param W16
    */
   def executePUSH(valor: W16) {
@@ -430,6 +445,7 @@ case class Simulador() {
   /**
    * Ejecuta el POP aumenta el stack pointer (sp), y guarda en el modo de direccionamiento
    * recibido por parametro el valor que se encuetra en el en esa celda a la que apunta el sp.
+ *
    * @param W16
    */
   def executePOP(modoDir: ModoDireccionamiento) {
