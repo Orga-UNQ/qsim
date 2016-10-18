@@ -56,7 +56,7 @@ class Programa(var instrucciones: List[Instruccion], var etiquetas: Map[String, 
    */
   def finalizo(pcInput: String, pcActual :W16): Boolean = {
     val pcIn = new W16(pcInput)
-    pcIn.++(tamanioDelPrograma())
+    pcIn ++ tamanioDelPrograma()
     pcActual.equals(pcIn)
   }
   /**

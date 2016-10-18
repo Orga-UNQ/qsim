@@ -1,7 +1,7 @@
 package ar.edu.unq.tip.qsim.integracion.mumuki
 
 import ar.edu.unq.tpi.qsim.integracion.mumuki.{JsonQ, JsonError}
-import ar.edu.unq.tpi.qsim.model.Simulador
+import ar.edu.unq.tpi.qsim.model.{Simulador, W16}
 import org.uqbar.commons.model.UserException
 import scala.collection.JavaConversions._
 
@@ -64,6 +64,17 @@ class MultExecutorTest  extends RefereeQsimMumukiTest {
     assert(output.records.R6.equals(contextOk.sim.cpu.registro("R6").get.getValor().hex))
     assert(output.records.R7.equals(contextOk.sim.cpu.registro("R7").get.getValor().hex))
   }
+
+  "La Ejecucion de cualquier Programa (conteniendo o no rutinas)" should "terminar correctamente (ejecutando todas las instrucciones del programa)" in {
+    val (_, out) = contextQsiMain.refereeQsim.evalResult(contextOk.result)
+    val output = out.asInstanceOf[JsonQ]
+
+    val pcFin = new W16(contextOk.qsiMain.input.special_records.PC)
+    pcFin ++ contextOk.program.tamanioDelPrograma()
+
+    assert(output.special_records.PC.equals(pcFin.hex))
+  }
+
 
 
   "El Simulador" should " cargar correctamente el estado inicial de cada celda de memoria que se indica en el archivo input" in {
